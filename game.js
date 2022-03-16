@@ -1,5 +1,13 @@
 var buttonColours = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
+var userClickedPattern = [];
+
+$(".btn").on("click", function() {
+  //Get the clicked button
+  var userChosenColour = $(this).attr("id");
+  //Store the clicked button into the array
+  userClickedPattern.push(userChosenColour);
+});
 
 function nextSequence() {
   //4 possible colours, generate a random number for the index
