@@ -35,7 +35,7 @@ $(".btn").on("click", function() {
 function checkAnswer(currentLevel) {
   //Check most recent answer
   if (gamePattern[currentLevel] === userClickedPattern[currentLevel]){
-    console.log("success");
+    //console.log("success");
     //Check if sequence is finished
     if (userClickedPattern.length === gamePattern.length){
           setTimeout(function() {
@@ -44,7 +44,7 @@ function checkAnswer(currentLevel) {
     }
 
   } else {
-    console.log("wrong");
+    //console.log("wrong");
     //Play sound
     playSound("sounds/wrong.mp3");
     //Change style
@@ -54,6 +54,7 @@ function checkAnswer(currentLevel) {
     }, 200);
     //Change title.
     $("#level-title").text("Game Over, Press Any Key to Restart");
+    startOver();
   }
 }
 
@@ -90,4 +91,10 @@ function animatePress(currentColour) {
   setTimeout(function() {
     $("#" + currentColour).removeClass("pressed");
   }, 100);
+}
+
+function startOver(){
+  gamePattern = [];
+  started = false;
+  level = 0;
 }
