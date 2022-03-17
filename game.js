@@ -14,6 +14,9 @@ $(".btn").on("click", function() {
   playSound("sounds/" + userChosenColour + ".mp3");
   //Show animation with the click
   animatePress(userChosenColour);
+
+  //Check the answer
+  checkAnswer(userClickedPattern.length - 1);
 });
 
 //Detect key press
@@ -60,4 +63,20 @@ function animatePress(currentColour) {
   setTimeout(function() {
     $("#" + currentColour).removeClass("pressed");
   }, 100);
+}
+
+function checkAnswer(currentLevel) {
+  //Check most recent answer
+  if (userClickedPattern[currentLevel] === gamePattern[currentLevel]){
+    console.log("success");
+    //Check if sequence is finished
+    if (gamePattern.length === userClickedPattern.length){
+          setTimeout(function() {
+            nextSequence();
+          }, 1000);
+    }
+
+  } else {
+    console.log("wrong");
+  }
 }
