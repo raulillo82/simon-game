@@ -5,7 +5,7 @@ var started = false;
 var level = 0;
 
 //Detect key press
-$(document).on("keypress", function() {
+$(document).on("keypress touchstart", function() {
   checkStartGame();
 });
 
