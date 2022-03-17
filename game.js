@@ -4,21 +4,6 @@ var userClickedPattern = [];
 var started = false;
 var level = 0;
 
-//Detect cliks on any of the buttons
-$(".btn").on("click", function() {
-  //Get the clicked button
-  var userChosenColour = $(this).attr("id");
-  //Store the clicked button into the array
-  userClickedPattern.push(userChosenColour);
-  //Play the sounds
-  playSound("sounds/" + userChosenColour + ".mp3");
-  //Show animation with the click
-  animatePress(userChosenColour);
-
-  //Check the answer
-  checkAnswer(userClickedPattern.length - 1);
-});
-
 //Detect key press
 $(document).on("keypress", function() {
   //Only start the game in the first key press.
@@ -32,7 +17,49 @@ $(document).on("keypress", function() {
   }
 });
 
+//Detect cliks on any of the buttons
+$(".btn").on("click", function() {
+  //Get the clicked button
+  var userChosenColour = $(this).attr("id");
+  //Store the clicked button into the array
+  userClickedPattern.push(userChosenColour);
+  //Play the sounds
+  playSound("sounds/" + userChosenColour + ".mp3");
+  //Show animation with the click
+  animatePress(userChosenColour);
+
+  //Check the answer
+  checkAnswer(userClickedPattern.length-1);
+});
+
+function checkAnswer(currentLevel) {
+  //Check most recent answer
+  if (gamePattern[currentLevel] === userClickedPattern[currentLevel]){
+    console.log("success");
+    //Check if sequence is finished
+    if (userClickedPattern.length === gamePattern.length){
+          setTimeout(function() {
+            nextSequence();
+          }, 1000);
+    }
+
+  } else {
+    console.log("wrong");
+    //Play sound
+    playSound("sounds/wrong.mp3");
+    //Change style
+    $("body").addClass("game-over");
+    setTimeout(function() {
+      $("body").removeClass("game-over");
+    }, 200);
+    //Change title.
+    $("#level-title").text("Game Over, Press Any Key to Restart");
+  }
+}
+
 function nextSequence() {
+  //Reset the clicked pattern
+  userClickedPattern = [];
   //Increase the Level
   level ++;
   //Change title.
@@ -49,7 +76,7 @@ function nextSequence() {
   $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
 
   //Play the corresponding sound
-  audioName = "sounds/" + randomChosenColour + ".mp3";
+  var audioName = "sounds/" + randomChosenColour + ".mp3";
   playSound(audioName);
 }
 
@@ -63,20 +90,4 @@ function animatePress(currentColour) {
   setTimeout(function() {
     $("#" + currentColour).removeClass("pressed");
   }, 100);
-}
-
-function checkAnswer(currentLevel) {
-  //Check most recent answer
-  if (userClickedPattern[currentLevel] === gamePattern[currentLevel]){
-    console.log("success");
-    //Check if sequence is finished
-    if (gamePattern.length === userClickedPattern.length){
-          setTimeout(function() {
-            nextSequence();
-          }, 1000);
-    }
-
-  } else {
-    console.log("wrong");
-  }
 }
