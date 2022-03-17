@@ -6,6 +6,10 @@ var level = 0;
 
 //Detect key press
 $(document).on("keypress", function() {
+  checkStartGame();
+});
+
+function checkStartGame () {
   //Only start the game in the first key press.
   if (!started) {
     //Change title.
@@ -14,6 +18,12 @@ $(document).on("keypress", function() {
     nextSequence();
     //Make sure the game is not started again
     started = true;
+  }
+}
+
+$(document).on("click", function(event) {
+  if ($(event.target).closest(".btn").length === 0) {
+    checkStartGame();
   }
 });
 
@@ -53,7 +63,7 @@ function checkAnswer(currentLevel) {
       $("body").removeClass("game-over");
     }, 200);
     //Change title.
-    $("#level-title").text("Game Over, Press Any Key to Restart");
+    $("#level-title").text("Game Over, Press Any Key to Restart (or click outside the buttons)");
     startOver();
   }
 }
